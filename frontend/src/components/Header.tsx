@@ -1,7 +1,3 @@
-import PropTypes from 'prop-types'
-// import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router'
-// import Button from './Button'
 import React, { useState } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,15 +6,11 @@ import Button from '@mui/material/Button'
 import { Box, IconButton, Link, Menu, MenuItem } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useCookie } from '../hooks/useCookie'
-import { v4 } from 'uuid'
 import useAuthSession from './AuthSessionContextProvider';
 
 const headerTextColor = 'primary.contrastText'
 const Header = () => {
     const authSession = useAuthSession()
-    const navigate = useNavigate()
-    const [tempID, setTempID] = useCookie('temp_id', v4())
     const [anchorElNav, setAnchorElNav] = useState(null)
     const [anchorElUser, setAnchorElUser] = useState(null)
 

@@ -1,23 +1,37 @@
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Grid, IconButton, Paper, Typography } from '@mui/material'
-import React, { useState, useRef, useEffect }  from 'react'
+import { IconButton, Paper, Typography } from '@mui/material'
+import React, { useState, useRef }  from 'react'
 import _uniqueId from 'lodash/uniqueId';
 import { DateTime } from 'luxon'
 
-export function scrollToElement(e){
+/**
+ * Scroll to an element after a 250ms delay.
+ *
+ * Accepts either an element or a an arrow function that returns a NodeList of
+ * Elements, which allows us to delay the query for the elements to scroll to
+ * and filter out zero-height elements.
+ *
+ * ```
+ * scrollToElement(document.querySelector(`${expanderId}:first-child`))
+ * scrollToElement(() => document.querySelectorAll('.Mui-error'))
+ * ```
+ */
+type ElementOrFunction = Element | (() => NodeListOf<Element>);
+export function scrollToElement(elem: ElementOrFunction){
     setTimeout(() => {
-        // TODO: I feel like there's got to be an easier way to do this
-        let openedSection = (typeof e === 'function')? e() : e;
-
-        if(NodeList.prototype.isPrototypeOf(openedSection)){
-            // NOTE: NodeList could contain a bunch of hidden elements with height 0, so we're filtering those out
-            openedSection = Array.from(openedSection).filter((e) => {
+        let openedSection: Element; // the element to scroll to
+        if (elem instanceof Element) {
+            openedSection = elem;
+        } else {
+            // NodeList could contain a bunch of hidden element with height 0,
+            // so we're filtering those out
+            let nonzero_elems = Array.from(elem()).filter((e) => {
                 const box = e.getBoundingClientRect();
                 return (box.bottom - box.top) > 0;
             })
-            if(openedSection.length == 0) return;
-            openedSection = openedSection[0];
+            if (nonzero_elems.length === 0) return;
+            openedSection = nonzero_elems[0];
         }
 
         const navBox = document.querySelector('header').getBoundingClientRect();

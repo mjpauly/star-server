@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router"
 import structuredClone from '@ungap/structured-clone';
-import { StyledButton, StyledTextField } from '../styles.js'
+import { StyledButton, StyledTextField } from '../styles'
 import { Box, Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
